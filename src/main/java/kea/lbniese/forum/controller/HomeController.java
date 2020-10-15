@@ -11,10 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,8 +47,11 @@ public class HomeController {
     }
 
     @PostMapping("/thread")
-    public String thread(@ModelAttribute Thread thread, Model model) {
+    public String thread(@RequestParam("authorId") int authorId, @ModelAttribute Thread thread, Model model) {
         logger.info("[POST] Calling create thread");
+        Author author = new Author();
+        author.setId(authorId);
+        thread.setAuthor(author);
         threadService.create(thread);
         List<Thread> threadList = threadService.fetchAll();
         model.addAttribute("threads", threadList);
@@ -86,13 +86,15 @@ public class HomeController {
     public String updateThread(@PathVariable("id") int id, Model model) {
         logger.info("[GET] Calling update thread");
         model.addAttribute("thread", threadService.fetchById(id));
-        model.addAttribute("AUTHOR_ID", threadService.fetchById(id).getAuthor().toString());
         return "update-thread";
     }
 
     @PostMapping("/thread/update")
-    public String updateThread(@ModelAttribute Thread thread) {
+    public String updateThread(@RequestParam("authorId") int authorId, @ModelAttribute Thread thread) {
         logger.info("[POST] Calling update thread");
+        Author author = new Author();
+        author.setId(authorId);
+        thread.setAuthor(author);
         threadService.update(thread.getId(), thread);
         return "redirect:/thread";
     }

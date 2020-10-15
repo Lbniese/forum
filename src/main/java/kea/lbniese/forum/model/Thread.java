@@ -9,17 +9,15 @@ import java.util.Set;
 @Entity
 public class Thread {
     @Id
-    @NotNull
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotNull
+
     private String title;
-    @NotNull
     private String content;
 
     @ManyToOne
-    @NotNull
-    @JoinColumn(name = "author_id", nullable = false)
+    @JoinColumn(name = "author_id")
     private Author author;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "thread")

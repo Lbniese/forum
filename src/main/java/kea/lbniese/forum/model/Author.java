@@ -1,6 +1,7 @@
 package kea.lbniese.forum.model;
 
 import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,10 +11,10 @@ import java.util.Set;
 public class Author {
 
     @Id
-    @NotNull
+    @Nullable
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotNull
+
     private String Name;
 
     //@OneToMany(mappedBy = "author")
